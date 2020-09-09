@@ -1,0 +1,42 @@
+version: "3"
+networks:
+  my_net_name:
+  my_sec_net_name:
+
+services:
+  aya-web:
+    build: aya-web/
+    networks:
+      - my_net_name
+      - my_sec_net_name
+    ports:
+      - 1234:1234
+  b2b-lk:
+    build: b2b_lk
+    networks:
+      - my_net_name
+    network_mode: host
+    depends_on:
+      - aya-web
+  b2b-lk-back:
+    build: b2b_lk
+    networks:
+      - my_sec_net_name
+    network_mode: host
+    depends_on:
+      - aya-web
+
+#version: '3'
+#
+#services:
+#	aya-web:
+#		build: /app
+#		volumes:
+#			- ./online_app:/app
+#		ports:
+#			- 3333:3333
+#	b2b-lk:
+#		build: /apps
+#		depends_on:
+#			- aya-web
+#
